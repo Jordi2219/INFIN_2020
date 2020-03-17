@@ -26,7 +26,7 @@
 
 int main(int argc, char **argv)
 {
-	printf("Hola Marc\n");
+	printf("Pray F for Team F\n");
 	return 0;
 }
 
