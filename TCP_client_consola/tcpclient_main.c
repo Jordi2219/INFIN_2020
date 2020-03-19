@@ -24,6 +24,7 @@
 * tcpClient
 */
 
+////////
 void ImprimirMenu(void)
 {
 	printf("\n\nMenu:\n");
@@ -35,9 +36,10 @@ void ImprimirMenu(void)
 	printf("5: Reset maxim i minim\n");
 	printf("6: Demanar comptador del nombre de mostres guardades\n");
 	printf("s: Sortir\n");
-	printf("------------------\n");
+	printf("--------------------\n");
 }
 
+/////////
 
 
 int main(int argc, char *argv[]){
@@ -49,9 +51,9 @@ int main(int argc, char *argv[]){
 	int 		result;
 	char		buffer[256];
 	//char		missatge[256];
-	//int			temps;
 
 
+////////
 	char input;
 
 	ImprimirMenu();                             
@@ -59,11 +61,10 @@ int main(int argc, char *argv[]){
 
 	switch (input)
 	{
-		case '1':
-			printf("Heu seleccionat l'opcio 1\n");
-			//printf("Escriure missatge a enviar\n");
-			//scanf("%s", missatge);
-			//strcpy(buffer, missatge); //Copiar missatge a buffer
+		case '1':											//falta
+			printf("Heu seleccionat l'opcio 1\n"); 			//printf("Escriure missatge a enviar\n");
+			strcpy(buffer,"Opcio 1 seleccionada");			//scanf("%s", missatge);
+															//strcpy(buffer, missatge); //Copiar missatge a buffer			
 			break;
 			
 		case '2':
@@ -88,7 +89,7 @@ int main(int argc, char *argv[]){
 			
 		case '6':
 			printf("Heu seleccionat l'opcio 6\n");	
-            strcpy(buffer,"Opcio 6 seleccionada");
+            strcpy(buffer,"{B}");
             //
 			break;
 		
@@ -101,6 +102,8 @@ int main(int argc, char *argv[]){
 	}
 
 	
+
+////////////
 
 
 	/*Crear el socket*/
