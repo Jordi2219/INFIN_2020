@@ -24,7 +24,8 @@
 * tcpClient
 */
 
-////////
+void enterACadena(unsigned int numero, char *bufer);
+
 void ImprimirMenu(void)
 {
 	printf("\n\nMenu:\n");
@@ -50,10 +51,18 @@ int main(int argc, char *argv[]){
 	int			mlen;
 	int 		result;
 	char		buffer[256];
-	//char		missatge[256];
+	
+	int 			marxa = 0;
+    char 			marxaC [] = "0";
+    unsigned int 	temps = 1;
+    char 			tempsC [2] = "1";
+    unsigned int 	numeromitjana = 1;
+    char 			numeromitjanaC [1] = "1";
+	
 
 
 ////////
+
 	char input;
 
 	ImprimirMenu();                             
@@ -61,10 +70,46 @@ int main(int argc, char *argv[]){
 
 	switch (input)
 	{
-		case '1':											//falta
-			printf("Heu seleccionat l'opcio 1\n"); 			//printf("Escriure missatge a enviar\n");
-			strcpy(buffer,"Opcio 1 seleccionada");			//scanf("%s", missatge);
-															//strcpy(buffer, missatge); //Copiar missatge a buffer			
+		case '1':
+			printf("Heu seleccionat l'opcio 1\n");	 
+			
+			//demanar v (parada o marxa)
+			
+			printf("Determinar posar en marxa o parar l'adquisicio (0 o 1): ");
+			scanf("%d", &marxa);
+				
+				if (marxa == 0)
+					{
+						strcpy(marxaC,"0");
+					}
+				else if (marxa == 1)
+					{
+						strcpy(marxaC,"1");
+					}
+				else
+					{
+					}
+			printf("Cadena (caracter) de marxa: %s \n", marxaC);				//no caldrà mostrar-ho
+			
+			// demanar temps
+			
+			printf("Determinar temps en segons de mostreig (1 a 20): ");
+			scanf("%u", &temps);
+			enterACadena(temps, tempsC);
+			printf("Cadena (caracter) temps en segons: %s \n", tempsC);			//no caldrà mostrar-ho
+			
+			// demanar mostres mitjana
+			
+			
+			printf("Determinar numero de mostres fer la mitjana (1 a 9): ");
+			scanf("%u", &numeromitjana);
+			enterACadena(numeromitjana, numeromitjanaC);
+			printf("Cadena (caracter) numero de mosres mitjana: %s \n", numeromitjanaC); 	//no caldrà mostrar-ho
+			
+			// falta concatenar les cadenes per enviar el missatge sencer
+		
+		
+			strcpy(buffer,"Falta concatenar");	
 			break;
 			
 		case '2':
@@ -139,3 +184,14 @@ int main(int argc, char *argv[]){
 
 	return 0;
 	}
+
+
+//////////
+
+
+//funcions
+
+void enterACadena(unsigned int numero, char *bufer){
+    sprintf(bufer, "%u", numero);
+}
+
