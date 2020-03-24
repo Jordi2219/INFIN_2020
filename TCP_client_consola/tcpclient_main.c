@@ -30,7 +30,7 @@ void ImprimirMenu(void)
 {
 	printf("\n\nMenu:\n");
 	printf("--------------------\n");
-	printf("1: Posar en marxa o para l'adquisicio\n");
+	printf("1: Posar en marxa o parar l'adquisicio\n");
 	printf("2: Demanar mostra mes antiga\n");
 	printf("3: Demanar maxim\n");
 	printf("4: Demanar minim\n");
@@ -44,22 +44,28 @@ void ImprimirMenu(void)
 
 
 int main(int argc, char *argv[]){
-	struct sockaddr_in	serverAddr;
-	char	    serverName[] = "127.0.0.1"; //AdreÃ§a IP on està  el servidor
+	struct sockaddr_in	serverAddr;			//Declaració de variables
+	char	    serverName[] = "127.0.0.1"; //Adreça IP on està  el servidor
 	int			sockAddrSize;
 	int			sFd;
 	int			mlen;
 	int 		result;
 	char		buffer[256];
 	
-	int 			marxa = 0;
+	int 			marxa = 0;				//Variables utilitzades abans d'enviar missatge
     char 			marxaC [] = "0";
     unsigned int 	temps = 1;
-    char 			tempsC [2] = "1";
+    char 			tempsC [2] = "01";
     unsigned int 	numeromitjana = 1;
     char 			numeromitjanaC [1] = "1";
+	char			missatge1 [3] = "";
 	
-
+	char			comandaMarxa [3] = "{M}";	//Variables utilitzades després de rebre missatge retorn
+	char			comandaAntiga [3] = "{U}";
+	char			comandaMaxim [3] = "{X}";
+	char			comandaMinim [3] = "{Y}";
+	char			comandaReset [3] = "{R}";
+	char			comandaComptador [3] = "{B}";
 
 ////////
 
@@ -68,12 +74,12 @@ int main(int argc, char *argv[]){
 	ImprimirMenu();                             
 	input = getchar();
 
-	switch (input)
+	switch (input)									//segons l'opció seleccionada per l'usuari, es realitzen accions i es configura el missatge
 	{
 		case '1':
 			printf("Heu seleccionat l'opcio 1\n");	 
 			
-			//demanar v (parada o marxa)
+			//demanar v (parada o marxa):
 			
 			printf("Determinar posar en marxa o parar l'adquisicio (0 o 1): ");
 			scanf("%d", &marxa);
@@ -89,27 +95,32 @@ int main(int argc, char *argv[]){
 				else
 					{
 					}
-			printf("Cadena (caracter) de marxa: %s \n", marxaC);				//no caldrà mostrar-ho
+			printf("Cadena (caracter) de marxa: %s \n", marxaC);				//no caldrà mostrar-ho per pantalla
 			
-			// demanar temps
+			// demanar temps:
 			
 			printf("Determinar temps en segons de mostreig (1 a 20): ");
 			scanf("%u", &temps);
 			enterACadena(temps, tempsC);
-			printf("Cadena (caracter) temps en segons: %s \n", tempsC);			//no caldrà mostrar-ho
+			printf("Cadena (caracter) temps en segons: %s \n", tempsC);			//no caldrà mostrar-ho per pantalla
 			
-			// demanar mostres mitjana
+			// demanar mostres mitjana:
 			
 			
 			printf("Determinar numero de mostres fer la mitjana (1 a 9): ");
 			scanf("%u", &numeromitjana);
 			enterACadena(numeromitjana, numeromitjanaC);
-			printf("Cadena (caracter) numero de mosres mitjana: %s \n", numeromitjanaC); 	//no caldrà mostrar-ho
+			printf("Cadena (caracter) numero de mosres mitjana: %s \n", numeromitjanaC); 	//no caldrà mostrar-ho per pantalla
 			
-			// falta concatenar les cadenes per enviar el missatge sencer
+			// arreglar concatenació cadenes, no funciona bé
 		
-		
-			strcpy(buffer,"Falta concatenar");	
+			strncat(marxaC, tempsC, 2);
+			strncat(marxaC, numeromitjanaC, 1);
+			
+			printf("Cadena missatge marxa: %s \n", marxaC);
+			strcpy(buffer, marxaC);
+				
+			
 			break;
 			
 		case '2':
@@ -173,11 +184,48 @@ int main(int argc, char *argv[]){
 	/*Enviar*/
 	//strcpy(buffer,missatge); //Copiar missatge a buffer
 	result = write(sFd, buffer, strlen(buffer));
-	printf("Missatge enviat a servidor(bytes %d): %s\n",	result, buffer);
+	printf("Missatge enviat a servidor(bytes %d): %s\n",	result, buffer);		//S'envia al servidor el missatge configurat prèviament
 
 	/*Rebre*/
 	result = read(sFd, buffer, 256);
-	printf("Missatge rebut del servidor(bytes %d): %s\n",	result, buffer);
+	printf("Missatge rebut del servidor(bytes %d): %s\n\n",	result, buffer);		//Es rep un nou missatge del servidor
+	
+	
+		
+	if (strncmp(buffer, comandaMarxa, 2) == 0)						//Segons el caracter de comanda, es realitzen accions per mostrar el codi de retorn i els valors correctes
+			{
+			printf("Codi retorn: %c\n", buffer[2]);	
+			}
+	else if (strncmp(buffer,comandaAntiga, 2) == 0)
+			{
+			printf("Codi retorn: %c\n", buffer[2]);	
+			printf("Valor mostra mes antiga: %c%c%c%c%c\n", buffer[3], buffer[4], buffer[5], buffer[6], buffer[7]);
+			}
+	else if (strncmp(buffer,comandaMaxim, 2) == 0)
+			{
+			printf("Codi retorn: %c\n", buffer[2]);	
+			printf("Valor maxim: %c%c%c%c%c\n", buffer[3], buffer[4], buffer[5], buffer[6], buffer[7]);
+			}
+	else if (strncmp(buffer,comandaMinim, 2) == 0)
+			{
+			printf("Codi retorn: %c\n", buffer[2]);	
+			printf("Valor minim: %c%c%c%c%c\n", buffer[3], buffer[4], buffer[5], buffer[6], buffer[7]);
+			}
+	else if (strncmp(buffer,comandaReset, 2) == 0)
+			{
+			printf("Codi retorn: %c\n", buffer[2]);
+			}
+	else if (strncmp(buffer,comandaComptador, 2) == 0)
+			{
+			printf("Codi retorn: %c\n", buffer[2]);	
+			printf("Valor del comptador: %c%c%c%c\n", buffer[3], buffer[4], buffer[5], buffer[6]);
+			}
+	else 
+			{
+			printf ("S'ha retornat una altra cosa\n");
+			}
+	
+	
 
 	/*Tancar el socket*/
 	close(sFd);
@@ -189,7 +237,7 @@ int main(int argc, char *argv[]){
 //////////
 
 
-//funcions
+//Funcions
 
 void enterACadena(unsigned int numero, char *bufer){
     sprintf(bufer, "%u", numero);
