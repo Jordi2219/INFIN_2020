@@ -51,6 +51,7 @@ int main(int argc, char *argv[]){
 	int			mlen;
 	int 		result;
 	char		buffer[256];
+	char		buffer2[256];
 	
 	int 			marxa = 0;				//Variables utilitzades abans d'enviar missatge
     char 			marxaC [] = "0";
@@ -71,21 +72,25 @@ int main(int argc, char *argv[]){
 ////////
 
 	
-	char input;
-	//int fin = 0;
+	int input;
 	
 	
-	//while (fin == 0)
-		//{
-
-		ImprimirMenu();                             
-		input = getchar();
+	while (input != 7)						//creacio ejecució continua
+		{
+		
+		input = 0;
+		strcpy(missatge1, "{M");			//"reiniciar" variable
+			
+		ImprimirMenu();
+		printf("Selecciona una opcio: \n");
+		scanf("%d", &input);
+		                            
 	
 	
 
 		switch (input)									//segons l'opció seleccionada per l'usuari, es realitzen accions i es configura el missatge
 			{
-				case '1':
+				case 1:
 					printf("Heu seleccionat l'opcio 1\n");	 
 					
 					//demanar v (parada o marxa):
@@ -146,32 +151,32 @@ int main(int argc, char *argv[]){
 					
 					break;
 					
-				case '2':
+				case 2:
 					printf("Heu seleccionat l'opcio 2\n");	 
 					strcpy(buffer,"{U}");
 					break;
 					
-				case '3':
+				case 3:
 					printf("Heu seleccionat l'opcio 3\n");	
 					strcpy(buffer,"{X}");
 					break;
 					
-				case '4':
+				case 4:
 					printf("Heu seleccionat l'opcio 4\n");	
 					strcpy(buffer,"{Y}");
 					break;
 					
-				case '5':
+				case 5:
 					printf("Heu seleccionat l'opcio 5\n");	
 					strcpy(buffer,"{R}");
 					break;
 					
-				case '6':
+				case 6:
 					printf("Heu seleccionat l'opcio 6\n");	
 					strcpy(buffer,"{B}");
 					break;
 				
-				case '7':
+				case 7:
 					return 0;
 					break;
 				
@@ -214,42 +219,41 @@ int main(int argc, char *argv[]){
 		printf("Missatge enviat a servidor(bytes %d): %s\n",	result, buffer);		//S'envia al servidor el missatge configurat prèviament
 
 		/*Rebre*/
-		result = read(sFd, buffer, 256);
-		printf("Missatge rebut del servidor(bytes %d): %s\n\n",	result, buffer);		//Es rep un nou missatge del servidor
+		result = read(sFd, buffer2, 256);
+		printf("Missatge rebut del servidor(bytes %d): %s\n\n",	result, buffer2);		//Es rep un nou missatge del servidor
 		
 		
 			
-		if (strncmp(buffer, comandaMarxa, 2) == 0)						//Segons el caracter de comanda, es realitzen accions per mostrar el codi de retorn i els valors correctes
+		if (strncmp(buffer2, comandaMarxa, 2) == 0)						//Segons el caracter de comanda, es realitzen accions per mostrar el codi de retorn i els valors correctes
 				{
-				printf("Codi retorn: %c\n", buffer[2]);	
+				printf("Codi retorn: %c\n", buffer2[2]);	
 				}
-		else if (strncmp(buffer,comandaAntiga, 2) == 0)
+		else if (strncmp(buffer2,comandaAntiga, 2) == 0)
 				{
-				printf("Codi retorn: %c\n", buffer[2]);	
-				printf("Valor mostra mes antiga: %c%c%c%c%c\n", buffer[3], buffer[4], buffer[5], buffer[6], buffer[7]);
+				printf("Codi retorn: %c\n", buffer2[2]);	
+				printf("Valor mostra mes antiga: %c%c%c%c%c\n", buffer2[3], buffer2[4], buffer2[5], buffer2[6], buffer2[7]);
 				}
-		else if (strncmp(buffer,comandaMaxim, 2) == 0)
+		else if (strncmp(buffer2,comandaMaxim, 2) == 0)
 				{
-				printf("Codi retorn: %c\n", buffer[2]);	
-				printf("Valor maxim: %c%c%c%c%c\n", buffer[3], buffer[4], buffer[5], buffer[6], buffer[7]);
+				printf("Codi retorn: %c\n", buffer2[2]);	
+				printf("Valor maxim: %c%c%c%c%c\n", buffer2[3], buffer2[4], buffer2[5], buffer2[6], buffer2[7]);
 				}
-		else if (strncmp(buffer,comandaMinim, 2) == 0)
+		else if (strncmp(buffer2,comandaMinim, 2) == 0)
 				{
-				printf("Codi retorn: %c\n", buffer[2]);	
-				printf("Valor minim: %c%c%c%c%c\n", buffer[3], buffer[4], buffer[5], buffer[6], buffer[7]);
+				printf("Codi retorn: %c\n", buffer2[2]);	
+				printf("Valor minim: %c%c%c%c%c\n", buffer2[3], buffer2[4], buffer2[5], buffer2[6], buffer2[7]);
 				}
-		else if (strncmp(buffer,comandaReset, 2) == 0)
+		else if (strncmp(buffer2,comandaReset, 2) == 0)
 				{
-				printf("Codi retorn: %c\n", buffer[2]);
+				printf("Codi retorn: %c\n", buffer2[2]);
 				}
-		else if (strncmp(buffer,comandaComptador, 2) == 0)
+		else if (strncmp(buffer2,comandaComptador, 2) == 0)
 				{
-				printf("Codi retorn: %c\n", buffer[2]);	
-				printf("Valor del comptador: %c%c%c%c\n", buffer[3], buffer[4], buffer[5], buffer[6]);
+				printf("Codi retorn: %c\n", buffer2[2]);	
+				printf("Valor del comptador: %c%c%c%c\n", buffer2[3], buffer2[4], buffer2[5], buffer2[6]);
 				}
 		else 
 				{
-				printf ("S'ha retornat una altra cosa\n");
 				}
 		
 		
@@ -258,7 +262,7 @@ int main(int argc, char *argv[]){
 		close(sFd);
 
 
-		//}
+		}
 		
 	return 0;
 	}
@@ -272,3 +276,5 @@ int main(int argc, char *argv[]){
 void enterACadena(unsigned int numero, char *bufer){
     sprintf(bufer, "%u", numero);
 }
+
+
