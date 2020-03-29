@@ -1,3 +1,11 @@
+/*Programa del cliente del grupo F
+ * 
+ * Programa basado en el ejemplo publicado en EUSSternet por parte de los profesores de la asignatura 
+ * 
+ * 
+ * */
+
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -76,7 +84,7 @@ int main(int argc, char *argv[])
 		input = 0;
 		strcpy(missatge1, "{M");								//"reiniciar" variable
 			
-		ImprimirMenu();
+		ImprimirMenu();											//es mostra el menu d'opcions a escollir
 		printf("Selecciona una opcio: \n");
 		scanf("%d", &input);
 		                            
@@ -127,7 +135,7 @@ int main(int argc, char *argv[])
 					enterACadena(numeromitjana, numeromitjanaC);
 					printf("Cadena (caracter) numero de mosres mitjana: %s \n", numeromitjanaC); 	//no caldria mostrar-ho per pantalla
 					
-					strcat(missatge1, marxaC);														//concatenació cadenes per crear el missatge
+					strcat(missatge1, marxaC);														//concatenació cadenes per crear el missatge complert
 					
 					if (temps<10)
 					{
@@ -146,7 +154,7 @@ int main(int argc, char *argv[])
 					strcat(missatge1, caracterfitrama);
 					
 					printf("Cadena missatge marxa: %s \n", missatge1);
-					strcpy(buffer, missatge1);
+					strcpy(buffer, missatge1);														//el missatge es copia a la variable a enviar
 					
 					break;
 					
@@ -211,15 +219,15 @@ int main(int argc, char *argv[])
 		/*Enviar*/
 		//strcpy(buffer,missatge); //Copiar missatge a buffer
 		result = write(sFd, buffer, strlen(buffer));
-		printf("Missatge enviat a servidor(bytes %d): %s\n",	result, buffer);					//S'envia al servidor el missatge configurat prèviament
+		printf("Missatge enviat a servidor(bytes %d): %s\n",	result, buffer);					//s'envia al servidor el missatge configurat prèviament
 
 		/*Rebre*/
 		result = read(sFd, buffer2, 256);
-		printf("Missatge rebut del servidor(bytes %d): %s\n\n",	result, buffer2);					//Es rep un nou missatge del servidor
+		printf("Missatge rebut del servidor(bytes %d): %s\n\n",	result, buffer2);					//es rep un nou missatge del servidor
 		
 		
 			
-		if (strncmp(buffer2, comandaMarxa, 2) == 0)													//Segons el caracter de comanda, es realitzen accions per mostrar el codi de retorn i els valors correctes
+		if (strncmp(buffer2, comandaMarxa, 2) == 0)													//es compara la lletra de la comanda per saber quina acció realitzar i què mostrar per pantalla
 		{
 			printf("Codi retorn: %c\n", buffer2[2]);	
 		}
