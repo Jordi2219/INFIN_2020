@@ -71,12 +71,6 @@ int main(int argc, char *argv[])
 	char			caracterfitrama [] = "}";
 	int				input;
 	
-	char			comandaMarxa [3] = "{M}";					//Variables utilitzades després de rebre missatge retorn
-	char			comandaAntiga [3] = "{U}";
-	char			comandaMaxim [3] = "{X}";
-	char			comandaMinim [3] = "{Y}";
-	char			comandaReset [3] = "{R}";
-	char			comandaComptador [3] = "{B}";
 	
 	
 	while (input != 7)											//creacio ejecució continua
@@ -225,8 +219,15 @@ int main(int argc, char *argv[])
 		result = read(sFd, buffer2, 256);
 		printf("Missatge rebut del servidor(bytes %d): %s\n\n",	result, buffer2);					//es rep un nou missatge del servidor
 		
+
+		char 			comandaMarxa [3] = "{M}";													//Variables utilitzades després de rebre missatge retorn
+		char 			comandaAntiga [3] = "{U}";	
+		char			comandaMaxim [3] = "{X}";					
+		char			comandaMinim [3] = "{Y}";
+		char			comandaReset [3] = "{R}";
+		char			comandaComptador [3] = "{B}";
 		
-			
+		
 		if (strncmp(buffer2, comandaMarxa, 2) == 0)													//es compara la lletra de la comanda per saber quina acció realitzar i què mostrar per pantalla
 		{
 			printf("Codi retorn: %c\n", buffer2[2]);	
