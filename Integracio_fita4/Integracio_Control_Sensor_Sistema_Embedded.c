@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /* Integració Control Sensor - Sistema Embedded Grup F ☻ */
 
 //Llibreries
@@ -539,6 +539,4 @@ void floatACadena(float numero, char *bufer){
 void enterACadena(int numero, char *bufer){
     sprintf(bufer, "%d", numero);
 }
-=======
 
->>>>>>> f4b98721e828d28f88b9492214b421526fc9885f
