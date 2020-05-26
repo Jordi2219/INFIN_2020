@@ -1,4 +1,3 @@
-
 /* Integració Control Sensor - Sistema Embedded Grup F ☻ */
 
 //Llibreries
@@ -232,7 +231,6 @@ void* mainserver(void* parametre)
 				caracter1=buffer[0]; 
 				caracter2=buffer[2]; 
 				printf("Nos han pedido el mínimo\n"); 
-				printf("%.2f\n",medidas[10]); 
 				floatACadena(menor,pequeno);
 				if (caracter1=='{' && caracter2=='}') {
 					if (menor<10){				
@@ -539,4 +537,3 @@ void floatACadena(float numero, char *bufer){
 void enterACadena(int numero, char *bufer){
     sprintf(bufer, "%d", numero);
 }
-
